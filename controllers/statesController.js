@@ -146,35 +146,45 @@ const addFunFacts = async (req, res) => {
 
 // Patch
 const updateFunFact = async (req, res) => {
-    const { index, funfact } = req.body;
     const code = params.state.toUpperCase();
     const state = getStateByCode(code);
 
-    if (!index) {
-        return res.status(404).json({ message: "State fun fact index value required" });
-    }
-
-    if (!funfact) {
-        return res.status(404).json({ message: "State fun fact value required" });
-    }
-
+    // invalid state
     if (!state) {
         return res.status(404).json({
             message: "Invalid state abbreviation parameter"
         });
     }
 
+    const { index, funfact } = req.body;
+
+    // no index 
+    if (!index) {
+        return res.status(404).json({ message: "State fun fact index value required" });
+    } 
+
+    //no funfact or not a string
+        if (!funfact || typeof funfact !== "string") {
+        return res.status(404).json({ message: "State fun fact value required" });
+    }
+
     const doc = await State.findOne({ stateCode: code });
 
+    //no funfact exists
     if (!doc || !doc.funfacts || doc.funfacts.length === 0) {
         return res.json({ message: `No Fun Facts found for ${state.state}` });
     }
 
-    if (index < 1 || index > doc.funfacts.length) {
-        return res.status(404).json({ message: "Invalid index" });
+    // indexes start at 1
+    const arrIndex = Number(index) -1;
+
+    //invalid index
+    if (index < 0 || arrIndex > doc.funfacts.length) {
+        return res.status(404).json({ message: `No Fun Fact found at that index for ${state.state}` });
     }
 
-    doc.funfacts[index -1] = funfact;
+    // update fun fact
+    doc.funfacts[arrIndex] = funfact;
 
     await doc.save();
 
