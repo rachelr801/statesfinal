@@ -59,7 +59,7 @@ const getFunFact = async (req, res) => {
 
     if (!doc || !doc.funfacts || doc.funfacts.length === 0) {
         return res.status(404).json({
-            message: `No Fun Facts Found for ${state.state}`
+            message: `No Fun Facts found for ${state.state}`
         });
     }
 
@@ -160,7 +160,7 @@ const updateFunFact = async (req, res) => {
     const doc = await State.findOne({ stateCode: code });
 
     if (!doc) {
-        return res.status(404).json({ message: `No Fun Facts found for ${code}` });
+        return res.status(404).json({ message: `No Fun Facts found for ${state.state}` });
     }
 
     if (index < 1 || index > doc.funfacts.length) {
@@ -186,7 +186,7 @@ const deleteFunFact = async (req, res) => {
     const doc = await State.findOne({ stateCode: code });
 
     if (!doc) {
-        return res.status(404).json({ message: `No Fun Facts found for ${code}` });
+        return res.status(404).json({ message: `No Fun Facts found for ${state.state}` });
     }
 
     if (index < 1 || index > doc.funfacts.length) {
