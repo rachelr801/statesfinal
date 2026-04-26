@@ -146,7 +146,7 @@ const addFunFacts = async (req, res) => {
 
 // Patch
 const updateFunFact = async (req, res) => {
-    const code = params.state.toUpperCase();
+    const code = req.params.state.toUpperCase();
     const state = getStateByCode(code);
 
     // invalid state
@@ -179,7 +179,7 @@ const updateFunFact = async (req, res) => {
     const arrIndex = Number(index) -1;
 
     //invalid index
-    if (index < 0 || arrIndex > doc.funfacts.length) {
+    if (index < 0 || arrIndex >= doc.funfacts.length) {
         return res.status(404).json({ message: `No Fun Fact found at that index for ${state.state}` });
     }
 
@@ -214,7 +214,7 @@ const deleteFunFact = async (req, res) => {
     }
 
     if (index < 1 || index > doc.funfacts.length) {
-        return res.status(404).json({ message: "Invalid index" });
+        return res.status(404).json({ message: `No Fun Fact found at that index for ${state.state}` });
     }
 
     doc.funfacts.splice(index - 1, 1);
