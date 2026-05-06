@@ -40,7 +40,7 @@ const getState = async (req, res) => {
 
     const funFacts = await State.findOne({ stateCode: code });
 
-    res.hson({
+    res.json({
         ...state,
         funfacts: funFacts?.funfacts || []
     });
