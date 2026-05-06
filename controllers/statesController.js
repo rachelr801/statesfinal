@@ -40,11 +40,10 @@ const getState = async (req, res) => {
 
     const funFacts = await State.findOne({ stateCode: code });
 
-    if (funFacts) {
-        state.funfacts = funFacts?.funfacts || [];
-    }
-
-    res.json(state);
+    res.hson({
+        ...state,
+        funfacts: funFacts?.funfacts || []
+    });
 };
 
 // Get random fun fact
