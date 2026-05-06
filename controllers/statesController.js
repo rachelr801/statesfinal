@@ -22,7 +22,8 @@ const getAllStates = async (req, res) => {
 
     const merged = states.map(state => {
         const match = funFacts.find(f => f.stateCode === state.code);
-        return match ? { ...state, funfacts: match.funfacts } : state;
+        return { ...state, funfacts: match?.funfacts || []
+        };
     });
 
     res.json(merged);
